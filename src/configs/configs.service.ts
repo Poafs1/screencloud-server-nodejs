@@ -39,4 +39,8 @@ export class ConfigsService {
       database: this.config.get<string>('PG_DATABASE') || 'postgres',
     };
   }
+
+  get screenCloudApiEndpoint(): string {
+    return this.config.get<string>('SCREEN_CLOUD_API_ENDPOINT') || 'localhost';
+  }
 }
