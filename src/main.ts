@@ -4,7 +4,8 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { ConfigsService } from './configs/configs.service';
 import { CONSTANTS } from './constants';
-import * as express from 'express';
+import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,15 +26,19 @@ async function bootstrap() {
   // Set global prefix
   app.setGlobalPrefix(CONSTANTS.globalPrefix);
 
-  // Initialize rawBody
-  app.use(
-    express.json({
-      limit: '5mb',
-      verify: (req: any, res, buf) => {
-        req.rawBody = buf.toString();
-      },
-    }),
-  );
+  // Validation
+  app.useGlobalPipes(new ValidationPipe());
+
+  // Swagger
+  const { swagger } = CONSTANTS;
+  const config = new DocumentBuilder()
+    .setTitle(swagger.title)
+    .setDescription(swagger.description)
+    .setVersion(swagger.version)
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup(swagger.prefix, app, document);
 
   await app.listen(server.port);
 }
