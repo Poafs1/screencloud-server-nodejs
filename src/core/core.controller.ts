@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CoreService } from './core.service';
 import { AuthDto, AuthInputDto } from './dto/auth.dto';
+import { WithdrawInputDto } from './dto/withdraw.dto';
 
 @Controller('core')
 export class CoreController {
@@ -15,5 +16,10 @@ export class CoreController {
   @Get('/reset/data')
   async resetData(): Promise<boolean> {
     return this.coreService.resetData();
+  }
+
+  @Post('/withdraw')
+  async withdraw(@Body() withdrawInputDto: WithdrawInputDto): Promise<void> {
+    return this.coreService.withdraw(withdrawInputDto);
   }
 }

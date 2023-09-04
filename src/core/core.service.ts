@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BalanceEntity } from './entities/balance.entity';
 import { Repository } from 'typeorm';
 import { MachineBalanceEntity } from './entities/machine-balance.entity';
+import { WithdrawInputDto } from './dto/withdraw.dto';
 
 @Injectable()
 export class CoreService {
@@ -95,5 +96,13 @@ export class CoreService {
       });
 
     return true;
+  }
+
+  async withdraw(withdrawInputDto: WithdrawInputDto): Promise<void> {
+    const { amount } = withdrawInputDto;
+
+    console.log('amount', amount);
+
+    return null;
   }
 }
