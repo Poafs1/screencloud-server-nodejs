@@ -12,7 +12,7 @@ describe('CoreController', () => {
     controller = module.get<CoreController>(CoreController);
   });
 
-  it('should be defined', () => {
+  it('should be defined!', () => {
     expect(controller).toBeDefined();
   });
 });
