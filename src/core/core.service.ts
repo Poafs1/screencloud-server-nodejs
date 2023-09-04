@@ -22,6 +22,7 @@ export class CoreService {
     const { pin } = authInputDto;
     const { screenCloudApiEndpoint } = this.configsService;
 
+    // Authorize PIN
     const foundCurrentBalance = await axios
       .post(screenCloudApiEndpoint, {
         pin,
@@ -36,6 +37,11 @@ export class CoreService {
 
     const { currentBalance } = foundCurrentBalance.data;
 
+    /**
+     * Find current balance
+     * If not found, create new balance
+     * If found, update current balance
+     */
     const foundBalance = await this.balanceEntity
       .findOne({
         where: {
@@ -69,6 +75,7 @@ export class CoreService {
     };
   }
 
+  // For testing purpose
   async resetData(): Promise<boolean> {
     await this.machineBalanceEntity.delete({}).catch((error) => {
       throw new InternalServerErrorException(error);
