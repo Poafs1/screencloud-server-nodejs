@@ -42,6 +42,7 @@ export class CoreService {
         throw new InternalServerErrorException(error);
       });
 
+    // We initialize new balance everytime, since it's for testing purpose.
     if (!foundBalance) {
       await this.balanceEntity
         .save(this.balanceEntity.create({ pin, balance: currentBalance }))
