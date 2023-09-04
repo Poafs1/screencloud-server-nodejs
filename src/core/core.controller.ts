@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CoreService } from './core.service';
 import { AuthDto, AuthInputDto } from './dto/auth.dto';
 
@@ -9,5 +9,11 @@ export class CoreController {
   @Post('/auth')
   async auth(@Body() authInputDto: AuthInputDto): Promise<AuthDto> {
     return this.coreService.auth(authInputDto);
+  }
+
+  // This is for testing purpose only.
+  @Get('/reset/data')
+  async resetData(): Promise<boolean> {
+    return this.coreService.resetData();
   }
 }

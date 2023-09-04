@@ -5,6 +5,7 @@ import { ConfigsService } from '../configs/configs.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BalanceEntity } from './entities/balance.entity';
 import { Repository } from 'typeorm';
+import { MachineBalanceEntity } from './entities/machine-balance.entity';
 
 @Injectable()
 export class CoreService {
@@ -12,6 +13,8 @@ export class CoreService {
     private configsService: ConfigsService,
     @InjectRepository(BalanceEntity)
     private balanceEntity: Repository<BalanceEntity>,
+    @InjectRepository(MachineBalanceEntity)
+    private machineBalanceEntity: Repository<MachineBalanceEntity>,
   ) {}
 
   async auth(authInputDto: AuthInputDto): Promise<AuthDto> {
@@ -63,5 +66,34 @@ export class CoreService {
     return {
       currentBalance,
     };
+  }
+
+  async resetData(): Promise<boolean> {
+    await this.machineBalanceEntity.delete({}).catch((error) => {
+      throw new InternalServerErrorException(error);
+    });
+
+    await this.machineBalanceEntity
+      .save(
+        this.machineBalanceEntity.create([
+          {
+            note: 5,
+            amount: 10,
+          },
+          {
+            note: 10,
+            amount: 15,
+          },
+          {
+            note: 20,
+            amount: 7,
+          },
+        ]),
+      )
+      .catch((error) => {
+        throw new InternalServerErrorException(error);
+      });
+
+    return true;
   }
 }
