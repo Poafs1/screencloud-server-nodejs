@@ -1,13 +1,13 @@
-import { IsNumberString, IsString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsInt, IsNumberString } from 'class-validator';
 
 export class AuthInputDto {
   @IsNotEmpty()
-  @IsString()
+  @IsNumberString()
   pin: string;
 }
 
 export class AuthDto {
   @IsNotEmpty()
-  @IsNumberString()
+  @IsInt()
   currentBalance: number;
 }
