@@ -20,7 +20,6 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js",
-    "pg:init:database": "sh ./mockups/pg/database/init.sh",
     "pg:init:data": "sh ./mockups/pg/table/init.sh",
     "pg:migration:run": "yarn typeorm --config ./typeorm/ormconfig.json migration:run",
     "pg:migration:generate": "yarn typeorm --config ./typeorm/ormconfig.json -d ./migrations migration:generate -n",
@@ -85,6 +84,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
   }
 }

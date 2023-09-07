@@ -78,6 +78,10 @@ export class CoreService {
   async withdraw(withdrawInputDto: WithdrawInputDto): Promise<WithdrawDto> {
     const { amount, pin } = withdrawInputDto;
 
+    if (!amount) {
+      throw new ForbiddenException('Amount must be greater than 0');
+    }
+
     const [foundBalance, foundMachineBalance] = await Promise.all([
       this.authorizePin(pin),
       this.findMachineBalance({
