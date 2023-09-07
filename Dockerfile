@@ -33,7 +33,7 @@ RUN yarn build
 
 ENV NODE_ENV production
 
-RUN yarn install --frozen-lockfile --production && yarn cache clean
+RUN yarn install --frozen-lockfile --ignore-scripts --production && yarn cache clean
 
 USER node
 
