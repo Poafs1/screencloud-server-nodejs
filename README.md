@@ -49,6 +49,12 @@ yarn pg:migration:run
 yarn pg:init:data
 ```
 
+## Test
+
+```sh
+yarn test
+```
+
 ## Run
 
 ### Locally
