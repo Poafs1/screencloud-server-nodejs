@@ -1,73 +1,64 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# ScreenCloud interview take home assignement
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Requirement
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+1. `.env` (please refer to .env.example)
+2. ormconfig.json (I already attached in this case)
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+```JSON
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "",
+  "password": "",
+  "database": "screencloud-dev",
+  "entities": ["src/**/**.entity{.ts,.js}"],
+  "synchronize": true,
+  "migrations": ["migrations/*.ts"]
+}
+```
 
 ## Installation
 
-```bash
-$ npm install
+```sh
+yarn install
 ```
 
-## Running the app
+### Database
 
-```bash
-# development
-$ npm run start
+**Step 1**: Initialize Postgres database
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```sh
+docker-compose -f docker-compose-db.dev.yaml up --build
 ```
 
-## Test
+**Step 2**: Create Postgres database
 
-```bash
-# unit tests
-$ npm run test
+> Create new database name `screencloud-dev`
 
-# e2e tests
-$ npm run test:e2e
+**Step 3**: Run migration
 
-# test coverage
-$ npm run test:cov
+```sh
+yarn pg:migration:run
 ```
 
-## Support
+**Step 4**: Init mock data
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```sh
+yarn pg:init:data
+```
 
-## Stay in touch
+## Run
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Locally
 
-## License
+```sh
+yarn start:dev
+```
 
-Nest is [MIT licensed](LICENSE).
+### Docker
+
+```sh
+docker-compose -f docker-compose.dev.yaml up --build
+```
